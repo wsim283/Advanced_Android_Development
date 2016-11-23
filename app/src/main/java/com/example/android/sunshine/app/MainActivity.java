@@ -19,10 +19,13 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.android.sunshine.app.sync.SunshineSyncAdapter;
+
+import java.util.ArrayList;
 
 public class MainActivity extends ActionBarActivity implements ForecastFragment.Callback {
 
@@ -36,6 +39,8 @@ public class MainActivity extends ActionBarActivity implements ForecastFragment.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mLocation = Utility.getPreferredLocation(this);
+
+
 
         setContentView(R.layout.activity_main);
         if (findViewById(R.id.weather_detail_container) != null) {
