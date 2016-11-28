@@ -19,6 +19,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.preference.ListPreference;
 import android.preference.PreferenceManager;
 import android.text.format.Time;
 
@@ -29,6 +30,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Utility {
+    private static int MAX_ICON_PACKS = 2;
+    private static int MAX_TEMP_TYPES = 2;
+
     public static String getPreferredLocation(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         return prefs.getString(context.getString(R.string.pref_location_key),
@@ -38,6 +42,25 @@ public class Utility {
     public static String getPreferredIconsPack(Context context){
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         return prefs.getString(context.getString(R.string.pref_icons_key),context.getString(R.string.pref_icons_colored));
+    }
+
+    //making this function because apparently ListPrefence.findIndexValue doesn't work for hyperlink as strings
+    //so going to do it manually
+    public static int findListPreferenceIndexValue(Context context,ListPreference listPreference, String stringValue, String key){
+
+        int index = 0;
+        int max = (key.equals(context.getString(R.string.pref_units_key)))? MAX_TEMP_TYPES:MAX_ICON_PACKS;
+
+        while(index < max){
+            if (listPreference.getEntryValues()[index].toString().equals(stringValue)) {
+                return index;
+            }
+            index++;
+        }
+
+        //if we get here then we didn't find any match
+        index = -1;
+        return index;
     }
 
     public static boolean isMetric(Context context) {
